@@ -1,0 +1,12 @@
+df_obj = DataFrame() #创建DataFrame对象
+df_obj.dtypes #查看各行的数据格式
+df_obj.head() #查看前几行的数据,默认前5行
+df_obj.tail() #查看后几行的数据,默认后5行
+df_obj.index #查看索引
+df_obj.columns #查看列名
+df_obj.values #查看数据值
+df_obj.describe #描述性统计
+df_obj.T #转置
+df_obj.sort(columns = ‘’)#按列名进行排序
+df_obj.sort_index(by=[‘’,’’])#多列排序,使用时报该函数已过时,请用sort_values
+df_obj.sort_values(by=['',''])同上

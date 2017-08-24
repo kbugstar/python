@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+{% csrf_token %}
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>stock analyze system</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          $("#btn_search").click(function(){
+              var code = $("#code").val();
+              if (code==null || code==""){
+                  alert("请输入代码！")
+                  return false;
+              }
+              $("#search_from").submit()
+          });
+        });
+        $(document).ready(function(){
+            rate = $("#rateSort").attr("value")
+            turnover = $("#turnover").attr("value")
+            if (rate=="ASC"){
+                $("#rate").attr("src","/static/stock/images/up.png")
+            }else{
+                $("#rate").attr("src","/static/stock/images/down.png")
+            }
+            if (turnover=="ASC"){
+                $("#turnov").attr("src","/static/stock/images/up.png")
+            }else{
+                $("#turnov").attr("src","/static/stock/images/down.png")
+            }
+        });
+    </script>
+    <script>
+        function onKeyDown(event){
+
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+
+                if(e && e.keyCode==27){ // 按 Esc
+                     //要做的事情
+                 }
+                 if(e && e.keyCode==113){ // 按 F2
+                      //要做的事情
+                 }
+                 if(e && e.keyCode==13){ // enter 键
+//                     var code = $("#code").val();
+//
+//                     $.get("/stocklist/",{'code':code}, function(ret){
+//                         $('#result').html(ret);
+//                     })
+                     $("#search_from").submit()
+                 }
+        }
+
+        function sortByRate(){
+            src = $("#rate").attr("src")
+            $("#type").attr("value","rate")
+            if (src.indexOf("down")!= -1){
+                $("#rate").attr("src","/static/stock/images/up.png")
+                $("#rateSort").attr("value","ASC")
+            }else{
+                $("#rate").attr("src","/static/stock/images/down.png")
+                $("#rateSort").attr("value","DESC")
+            }
+            $("#search_from").submit()
+        }
+        function sortByTurnover(){
+            src = $("#turnov").attr("src")
+            $("#type").attr("value","turnover")
+            if (src.indexOf("down")!= -1){
+                $("#turnov").attr("src","/static/stock/images/up.png")
+                $("#turnover").attr("value","ASC")
+            }else{
+                $("#turnov").attr("src","/static/stock/images/down.png")
+                $("#turnover").attr("value","DESC")
+            }
+            $("#search_from").submit()
+        }
+
+    </script>
+
+</head>
+<body style="text-align: center">
+
+    <form id="search_from" action="/stocklist/" method="get" class="form-inline" id="taskList_form">
+        <div class="form-group">
+            <label>代码：</label>
+            <!--<input name="code" onkeypress="if(event.keyCode==13){$('#btn_search').click()}" class="form-control" placeholder="股票代码"/>-->
+            <input id="code" name="code" onkeydown="onKeyDown(event)" class="form-control" placeholder="代码" value="{{code}}"/>
+            <input id="rateSort" name="rateSort" class="form-control" alt="当前价与最低价比例"  value="{{rateSort}}"/>
+            <input id="turnover" name="turnover" class="form-control" alt="换手率"  value="{{turnover}}"/>
+            <input id="type" name="type" class="form-control"  value="{{type}}"/>
+        </div>
+
+        <div class="form-group">
+            <button id="btn_search" class="btn btn-default" type="button"  >查询</button>
+        </div>
+
+    </form>
+    <h6>当前价格与最低价比例（出现均线多头排列，量价齐升 【注：最低价指峰值之后的最低价】）</h6>
+<div class="row-fluid" style="width:90%;margin:0 auto"  >
+    <div class="block"  align="center">
+        <div id="tablewidget" class="block-body collapse in">
+            <table id="stockdata" class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>股票代码</th>
+                  <th>当前价格</th>
+                  <th>当前日期</th>
+                  <th>最高价格</th>
+                  <th>最高价日期</th>
+                  <th>最低价格</th>
+                  <th>最低价日期</th>
+                  <th><a href="javascript:void(0)" onclick="sortByRate()" >当前价格与最低价占比 <label hidden="hidden">DESC</label><img id="rate" style="height: 16px;width: 6px" src="/static/stock/images/up.png"></a></th>
+                  <th>均线多头排列</th>
+                  <th>放量</th>
+                  <th><a href="javascript:void(0)" onclick="sortByTurnover()">换手率 <label hidden="hidden">DESC</label><img id="turnov" style="height: 16px;width: 6px" src="/static/stock/images/up.png"></a></th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in p.p_content %}
+                <tr>
+                  <td>{{i.id}}</td>
+                  <td>{{i.code}}</td>
+                  <td>{{i.current_price}}</td>
+                  <td>{{i.current_date}}</td>
+                  <td>{{i.high_price}}</td>
+                  <td>{{i.high_date}}</td>
+                  <td>{{i.low_price}}</td>
+                  <td>{{i.low_date}}</td>
+                  <td>{{i.rate}}</td>
+                  <td>{{i.ave_price_up}}</td>
+                  <td>{{i.volume_up}}</td>
+                  <td>{{i.turnover}}</td>
+                  <td>删除</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+    <div id="pagination_div1">
+        <ul class="pagination" >
+        共 <span  class="badge">{{p.p_count}}</span> 条记录，总 <span  class="badge">{{p.p_pages}}</span> 页，当前在<span  class="badge">{{id}}</span>页
+        </ul>
+    </div>
+    <div id="pagination_div2">
+        <nav>
+            <ul class="pagination" >
+                <li><a href="/stocklist/?pagenum={{p.p_previous}}">&laquo;</a></li>
+                <li> <a href="/stocklist/?pagenum=1">首页</a></li>
+                    {% for i in p.p_range %}
+                        <li  {% ifequal p.p_id i %} class="active" {% endifequal %}><a href="/stocklist/?pagenum={{i}}">{{i}}</a></li>
+                    {% endfor %}
+                <li> <a href="/stocklist/?pagenum={{p.p_pages}}">尾页</a></li>
+                <li><a href="/stocklist/?pagenum={{p.p_next}}">&raquo;</a></li>
+            </ul>
+        </nav>
+    </div>
+    </div>
+</div>
+</body>
+</html>

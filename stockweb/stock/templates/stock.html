@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>候选牛币</title>
+    <script>
+//        function seeDetial(this) {
+//            //http://quote.eastmoney.com/sh600037.html
+//        }
+    </script>
+</head>
+<body>
+
+
+    <br>
+<!--
+    {% for key,value in currentPriceOfHighRate.items %}
+        {{key}} -&#45;&#45;&#45;&#45; {{value}}
+    {% empty %}  &lt;!&ndash;判断列表是否为空&ndash;&gt;
+        抱歉，currentPriceOfHighRate 列表为空
+    {% endfor %}-->
+
+    <br>---------------------------------------------------<br>
+    <h6>当前价格与最低价比例（出现均线多头排列，量价齐升 【注：最低价指峰值之后的最低价】）</h6>
+
+    {% for item in currentPriceOfLowRateTrue %}
+        <a id="{{item}}" name="{{item}}" onclick="seeDetial(this)">{{item}}</a>
+        <br>
+    {% empty %}  <!--判断列表是否为空-->
+        抱歉，currentPriceOfLowRateTrue 列表为空
+    {% endfor %}
+
+    <br>---------------------------------------------------<br>
+    <h6>当前价格与最低价比例（未出现均线多头排列，量价齐升 【注：最低价指峰值之后的最低价】）</h6>
+
+    {% for item in currentPriceOfLowRateFalse %}
+        <a id="{{item}}" name="{{item}}" onclick="seeDetial(this)">{{item}}</a>
+    {% empty %}  <!--判断列表是否为空-->
+        抱歉，currentPriceOfLowRateFalse 列表为空
+    {% endfor %}
+</body>
+</html>

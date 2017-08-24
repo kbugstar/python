@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>自强学堂</title>
+</head>
+<body>
+
+<a href="/add/4/5/">计算 4+5</a> <br>
+<a href="{% url 'add3' 2 4 %}">new计算 2+4</a><br>
+<!--接收后台传递的字符串-->
+{{string}}
+
+<br>
+<!--接受list数组-->
+{% for i in list %}
+{{i}}
+{% endfor %}
+
+<br>
+<!--接受字典-->
+站点：{{info_dict.site}}<br>
+内容：{{info_dict.content}}<br>
+
+<!--遍历字典方法-->
+{% for key,value in info_dict.items %}
+    {{key}}:{{value}}
+{% endfor %}
+<br>
+
+<!--用逗号将list中的元素链接起来-->
+{% for item in list1 %}
+    {{item}}
+    {% if not forloop.last %},{% endif %}  <!--如果遍历到最后一个元素，不再输出最后一个逗号-->
+{% empty %}  <!--判断列表是否为空-->
+    抱歉，列表为空
+{% endfor %}
+<br>
+
+<!--使用 as 将内容取别名，可多次使用-->
+{% url 'add3' 5 6 as the_url %}
+<a href="{{the_url}}">链接到：{{the_url}}</a>
+<br>
+
+<!--==, !=, >=, <=, >, < 这些比较都可以在模板中使用-->
+{% if var >= 90 %}
+成绩优秀，自强学堂你没少去吧！学得不错
+{% elif var >= 80 %}
+成绩良好
+{% elif var >= 70 %}
+成绩一般
+{% elif var >= 60 %}
+需要努力
+{% else %}
+不及格啊，大哥！多去自强学堂学习啊！
+{% endif %}
+
+
+<!--and, or, not, in, not in 也可以在模板中使用-->
+{% if num <= 100 and num >= 0 %}
+num在0到100之间
+{% else %}
+数值不在范围之内！
+{% endif %}
+
+
+<!--假如我们判断 'ziqiangxuetang' 在不在一个列表变量 List 中-->
+{% if 'ziqiangxuetang' in List %}
+自强学堂在名单中
+{% endif %}
+
+<br>
+当前用户：{{request.user}}
+<br>
+{% if request.user.is_authenticated %}
+    {{ request.user.username}}，您好！
+{% else %}
+    请登录
+{% endif %}
+
+
+
+<!--获取当前网址-->
+
+{{ request.path }}
+
+<!-- 获取当前 GET 参数：-->
+{{ request.GET.urlencode }}
+
+<!-- 合并到一起用的一个例子：-->
+<a href="{{ request.path }}?{{ request.GET.urlencode }}&delete=1">当前网址加参数 delete</a>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
