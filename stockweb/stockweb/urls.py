@@ -14,6 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import time
+
+import datetime
+import pytz
 from apscheduler.schedulers.background import BackgroundScheduler
 from django.conf.urls import url
 from django.contrib import admin
@@ -21,6 +25,8 @@ from django.contrib import admin
 # 2.1.2
 # from apscheduler.scheduler import Scheduler
 from learn import views as learn_view
+from scrapy.core.scheduler import Scheduler
+
 from stock import views as stock_view
 import logging
 
@@ -58,32 +64,42 @@ urlpatterns = [
 # 2.1.2
 
 # sched = Scheduler()
-#
+
 # @sched.interval_schedule(cron='0 56 13 ? * MON-FRI')
 # def mytask():
 #     stock_view.Stock().computer()
 # sched.start()
 
+from apscheduler.schedulers.blocking import BlockingScheduler
+# def my_job():
+#     print 'hello world'
+# sched = BlockingScheduler()
+# sched.add_job(my_job, 'interval', seconds=5)
+# sched.start()
 
 
 
+# timez = pytz.timezone("Asia/Shanghai")
 # schedeler = BlockingScheduler()
-# schedeler.add_job(stock_view.Stock().computer,'cron', day_of_week='mon-fri', hour=18, minute=53)
+# schedeler.add_job(stock_view.Stock().computer,'cron',  hour=16, minute=25, timezone=timez)
 # try:
+#     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 #     schedeler.start()
 # except (KeyboardInterrupt,SystemExit):
 #     print 'job execute error'
 #     schedeler.shutdown()
 
 
-schedule = BackgroundScheduler()
+timez = pytz.timezone("Asia/Shanghai")
+schedule = BackgroundScheduler(timezone=timez)
+
 # schedule.add_job(stock_view.Stock().computer, 'cron',day_of_week='mon-fri', hour=15, minute=39)
 
-schedule.add_job(stock_view.Stock().computer, 'cron',day_of_week='mon-fri', hour='9-15', minute=39)
+# schedule.add_job(stock_view.Stock().computer, 'cron',day_of_week='mon-fri', hour='9-15', minute=39)
 
 
 
-# schedule.add_job(stock_view.Stock().download_stock_basic_info_todb, 'cron',day_of_week='mon-fri', hour=11, minute=18)
+schedule.add_job(stock_view.Stock().download_stock_basic_info_todb, 'cron',day_of_week='mon-sun', hour=16, minute=28)
 # schedule.add_job(stock_view.Stock().download_fenshi, 'cron',day_of_week='mon-fri', hour=16, minute=36)
 # schedule.add_job(stock_view.Stock().download_fenshi_thread, 'cron',day_of_week='mon-fri', hour=18, minute=20)
 try:

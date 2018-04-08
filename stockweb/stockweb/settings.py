@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'stockweb.wsgi.application'
+# WSGI_APPLICATION = 'stockweb.wsgi.application'
 
 
 # Database
@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',  # 设置为mysql数据库
         'NAME': 'stock',  # mysql数据库名
         'USER': 'root',  # mysql用户名，留空则默认为当前linux用户名
-        'PASSWORD': 'root',  # mysql密码
+        'PASSWORD': '123456',  # mysql密码
         'HOST': '',  # 留空默认为localhost
         'PORT': '',  # 留空默认为3306端口
     }
@@ -153,6 +153,10 @@ STATICFILES_FINDERS = (
 
 
 ### 配置信息
-DOWNLOAD_PATH_STOCKBASICS = 'E:/stock/csv/stockbasics/'
-DOWNLOAD_PATH_FENSHI = 'E:/stock/csv/fenshi/'
-DOWNLOAD_PATH_KLINE = 'E:/stock/csv/fenshi/'
+# DOWNLOAD_PATH_STOCKBASICS = 'E:/stock/csv/stockbasics/'
+# DOWNLOAD_PATH_FENSHI = 'E:/stock/csv/fenshi/'
+# DOWNLOAD_PATH_KLINE = 'E:/stock/csv/fenshi/'
+
+DOWNLOAD_PATH_STOCKBASICS = '/tmp/stock/csv/stockbasics/'
+DOWNLOAD_PATH_FENSHI = '/tmp/stock/csv/fenshi/'
+DOWNLOAD_PATH_KLINE = '/tmp/stock/csv/fenshi/'
