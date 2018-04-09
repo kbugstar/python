@@ -103,8 +103,8 @@ class Stock():
         下载并分析数据并入库
     '''
     def computer(self):
-        path = settings.DOWNLOAD_PATH_KLINE
-        path = 'E:/stock/csv/kline/'  # +str(DateUtils().get_current_date())+'/'
+        path = settings.DOWNLOAD_PATH_KLINE + str(DateUtils().get_current_date())+'/'
+        # path = 'E:/stock/csv/kline/' +str(DateUtils().get_current_date())+'/'
         print '=====================start ....' + str(ctime()) + '======================='
 
         print '开始下载股票历史K线数据......' + str(ctime())
@@ -136,15 +136,17 @@ class Stock():
         print '开始统计分析！ （' + str(ctime()) + '）'
         fu = FileUtils()
         content = {}
+        headers = {}
         files = fu.listDir(path)
         for file in files:
             code = file.split(".")[0][-6:]
-            headers, data = fu.loadCsv(file)
+            header, data = fu.loadCsv(file)
             content[code] = data
+            headers[code] = header
 
         # 当前价格与该股最高价的比例
         currentPriceOfHighRate = StockTools().getCurrentPriceOfHighRate(content)
-        currentPriceOfLowRateTrue, currentPriceOfLowRateFalse = StockTools().getCurrentPriceOfLowRate(content)
+        currentPriceOfLowRateTrue, currentPriceOfLowRateFalse = StockTools().getCurrentPriceOfLowRate(content, headers)
         # 对计算结果的比例进行排序，从小到大
         # sorted方法：参数1：获取dict的key、value，用于排序
         #           参数2：key指定用于排序的列：d:d[0]：表示用第一个元素排序，即key  d:d[1]：表示用第二个元素排序，即value

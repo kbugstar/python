@@ -42,9 +42,9 @@ class Stock_Basics(models.Model):
     outstanding = models.DecimalField('流通股本(亿)',max_digits=15,decimal_places=5,blank=True, null=True)
     totals = models.DecimalField('总股本(亿)',max_digits=15,decimal_places=5,blank=True, null=True)
     totalAssets = models.DecimalField('总资产(万)',max_digits=15,decimal_places=5,blank=True, null=True)
-    liquidAssets = models.DecimalField('流动资产',max_digits=15,decimal_places=5,blank=True, null=True),
+    liquidAssets = models.DecimalField('流动资产',max_digits=15,decimal_places=5,blank=True, null=True)
     fixedAssets = models.DecimalField('固定资产',max_digits=15,decimal_places=5,blank=True, null=True)
-    reserved = models.DecimalField('公积金',max_digits=15,decimal_places=5,blank=True, null=True),
+    reserved = models.DecimalField('公积金',max_digits=15,decimal_places=5,blank=True, null=True)
     reservedPerShare = models.DecimalField('每股公积金',max_digits=15,decimal_places=5,blank=True, null=True)
     esp = models.DecimalField('每股收益',max_digits=15,decimal_places=5,blank=True, null=True)
     bvps = models.DecimalField('每股净资',max_digits=15,decimal_places=5,blank=True, null=True)

@@ -2,6 +2,8 @@
 import csv
 import os
 
+from stockweb.stock.com.zw.utils.date_utils import DateUtils
+
 """
     文件操作类
 """
@@ -49,11 +51,12 @@ class FileUtils():
 
 if __name__=='__main__':
     fo = FileUtils()
-    fileList = fo.listDir("../file/csv/")
+    path = '/tmp/stock/csv/fenshi/' + str(DateUtils().get_current_date()) + '/'
+    fileList = fo.listDir(path)
     headers = None
     content = {}
     for file in fileList:
-        code = file.split('_')[3][:6]
+        code = file.split('/')[6][:6]
         headers,data = fo.loadCsv(file)
         content[code] = data
 

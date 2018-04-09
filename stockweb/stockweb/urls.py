@@ -93,15 +93,16 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 timez = pytz.timezone("Asia/Shanghai")
 schedule = BackgroundScheduler(timezone=timez)
 
-# schedule.add_job(stock_view.Stock().computer, 'cron',day_of_week='mon-fri', hour=15, minute=39)
+schedule.add_job(stock_view.Stock().computer, 'cron',day_of_week='mon-fri', hour=18, minute=43)
 
 # schedule.add_job(stock_view.Stock().computer, 'cron',day_of_week='mon-fri', hour='9-15', minute=39)
 
+schedule.add_job(stock_view.Stock().download_stock_basic_info_todb, 'cron', day_of_week = 'mon-fri', hour=15, minute=40)
 
-
-schedule.add_job(stock_view.Stock().download_stock_basic_info_todb, 'cron',day_of_week='mon-sun', hour=16, minute=28)
 # schedule.add_job(stock_view.Stock().download_fenshi, 'cron',day_of_week='mon-fri', hour=16, minute=36)
+
 # schedule.add_job(stock_view.Stock().download_fenshi_thread, 'cron',day_of_week='mon-fri', hour=18, minute=20)
+
 try:
     schedule.start()
 except Exception as e:

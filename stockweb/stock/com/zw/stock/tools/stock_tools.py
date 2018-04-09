@@ -49,7 +49,7 @@ class StockTools(object):
         currentPriceOfLowRateTrue：放量且均线多头排列
         currentPriceOfLowRateFalse：不满足放量且均线多头排列
     '''
-    def getCurrentPriceOfLowRate(self, stock_data):
+    def getCurrentPriceOfLowRate(self, stock_data, headers):
         currentPriceOfLowRateTrue = {}
         currentPriceOfLowRateFalse = {}
         if isinstance(stock_data, dict):
@@ -63,8 +63,10 @@ class StockTools(object):
                 cur_price = data[0][3]
                 # 最高价格出现的日期
                 highDate = data[0][0]
-                #换手率
-                turnover = data[0][14]
+                # 换手率
+                turnover = 0
+                if 'turnover' in headers[key]:
+                    turnover = data[0][14]
 
                 # 找出最高价
                 high = float(data[0][2])

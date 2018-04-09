@@ -45,7 +45,7 @@ class StockTools(object):
         计算当前价格与最低价的比例
         @:param stock_data 股票信息，dict类型，key=股票代码，value=股票日K数据
     '''
-    def getCurrentPriceOfLowRate(self, stock_data):
+    def getCurrentPriceOfLowRate(self, stock_data, headers):
         currentPriceOfLowRate = {}
         if isinstance(stock_data, dict):
             # 放量、大涨标志

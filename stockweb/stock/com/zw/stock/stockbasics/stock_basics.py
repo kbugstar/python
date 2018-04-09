@@ -20,7 +20,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 '''数据库连接池'''
-# dbOperator =db_operator.DBoperator()
+dbOperator =db_operator.DBoperator()
 '''表名'''
 table = "wealth_stocks"
 
@@ -124,9 +124,9 @@ class DownLoadStockBasic(object):
 
                 print(stock)
                 sb.save()
-                # if not self.isExistStock(stock['code']):
-                #     dbOperator.insertIntoDB(table, stock)
-                # stock_dict.append(stock)
+                if not self.isExistStock(stock['code']):
+                    dbOperator.insertIntoDB(table, stock)
+                stock_dict.append(stock)
 
 
 
@@ -138,12 +138,12 @@ class DownLoadStockBasic(object):
     '''
         根据股票代码（code）判断库中是否存在该股票
     '''
-    # def isExistStock(self,code):
-    #     sql = 'SELECT * FROM ' + table + ' where code = ' + code
-    #     n = dbOperator.execute(sql)
-    #     if n > 0:
-    #         return True
-    #     return False
+    def isExistStock(self,code):
+        sql = 'SELECT * FROM ' + table + ' where code = ' + code
+        n = dbOperator.execute(sql)
+        if n > 0:
+            return True
+        return False
 
 
 
