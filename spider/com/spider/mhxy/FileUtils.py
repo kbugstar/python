@@ -20,7 +20,7 @@ def saveToFile(fileName,content,isOverwWrite):
             if not os.path.exists(fileName):
                 with open(fileName, 'wb') as code:
                     code.write(content)
-                    print '文件内容写入成功'
+                    print ('文件内容写入成功')
             else: #文件已存在
                 if isOverwWrite: #覆盖
                     areainfo = open(fileName)
@@ -29,9 +29,9 @@ def saveToFile(fileName,content,isOverwWrite):
                         return
                     with open(fileName, 'wb') as code:
                         code.write(content)
-                        print '文件内容写入成功'
+                        print ('文件内容写入成功')
         else:  #传进来的是个目录
-            print '未指定文件名，目录创建成功，内容未写入'
+            print ('未指定文件名，目录创建成功，内容未写入')
             os.makedirs(fileName)
 
 

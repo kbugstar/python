@@ -47,7 +47,7 @@ class DownloadFenShiThread(threading.Thread):
 
             while n < 730:
                 n += 1
-                print self.name,code, end
+                print(self.name,code, end)
                 socket.setdefaulttimeout(100)
                 try:
                     df = ts.get_tick_data(code, end.date())
@@ -56,7 +56,7 @@ class DownloadFenShiThread(threading.Thread):
                         self.download_fenshi_tocsv(code, end.date(), df)
                         # self.download_fenshi_todb(code, end.date(), df)
                     else:
-                        print '       ----------no data'
+                        print('       ----------no data')
 
                     end -= datetime.timedelta(days=1)
                 except Exception as e:
@@ -64,7 +64,7 @@ class DownloadFenShiThread(threading.Thread):
                     self.get_tick_data(code,end)
                     end -= datetime.timedelta(days=1)
 
-            print 'queue 大小:',self.queue.qsize()
+            print('queue 大小:',self.queue.qsize())
             self.queue.task_done()
         return
 
@@ -79,7 +79,7 @@ class DownloadFenShiThread(threading.Thread):
                 self.download_fenshi_tocsv(code, date.date(), df)
                 # self.download_fenshi_todb(code, end.date(), df)
             else:
-                print '       ----------no data'
+                print('       ----------no data')
             print('get stock fenbi successed ! code = [' + str(code) + '],date = [' + str(date) + '] ,retruCount = [' + str(self.tick_retry_count) + ']')
             self.tick_retry_count = 0
         except Exception as e:
@@ -99,7 +99,7 @@ class DownloadFenShiThread(threading.Thread):
                 return
 
             df.to_csv(path + str(code) + '_' + str(date) + '.csv', encoding="utf_8_sig")
-            print 'fenshi csv download successed , code = [ '+str(code)+' ] , retryCount = ['+str(self.csv_retry_count)+']'
+            print('fenshi csv download successed , code = [ '+str(code)+' ] , retryCount = ['+str(self.csv_retry_count)+']')
             self.csv_retry_count = 0
         except Exception as e:
             self.csv_retry_count += 1
@@ -126,7 +126,7 @@ class DownloadFenShiThread(threading.Thread):
                 sf.amount = value[4]
                 sf.type = value[5]
                 sf.save()
-            print 'fenshi insert to db successed ,code = ['+str(code)+']  total [' + str(index) + '] , retryCount = ['+str(self.db_retry_count)+']'
+            print('fenshi insert to db successed ,code = ['+str(code)+']  total [' + str(index) + '] , retryCount = ['+str(self.db_retry_count)+']')
             self.csv_retry_count = 0
         except Exception as e:
             self.db_retry_count += 1

@@ -56,7 +56,7 @@ class Stock_Basics(models.Model):
     profit = models.DecimalField('利润同比( %)',max_digits=15,decimal_places=5,blank=True, null=True)
     gpr = models.DecimalField('毛利率( %)',max_digits=15,decimal_places=5,blank=True, null=True)
     npr = models.DecimalField('净利润率( %)',max_digits=15,decimal_places=5,blank=True, null=True)
-    holders = models.IntegerField('股东人数',default=0)
+    holders = models.FloatField('股东人数',default=0)
 
     # 为model加入字符串变现形式
     def __unicode__(self):

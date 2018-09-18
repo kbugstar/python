@@ -40,4 +40,4 @@ class DateUtils():
 
 if __name__=='__main__':
     # DateUtils().get_current_date()
-    print  DateUtils().turn_date('20170122')
+    print(DateUtils().turn_date('20170122'))

@@ -59,6 +59,5 @@ if __name__=='__main__':
         code = file.split('/')[6][:6]
         headers,data = fo.loadCsv(file)
         content[code] = data
-
-    print content
+    print(content)
 

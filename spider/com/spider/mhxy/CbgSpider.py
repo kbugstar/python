@@ -32,14 +32,14 @@ def ChinaBiddingLogin(url, username, password):
     urlopener.addheaders.append(('User-Agent',
                                  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'))
 
-    print 'Login......' + url
+    print ('Login......' + url)
 
     '''打开登陆页面'''
     req = urllib2.Request(url)  # req表示向服务器发送请求#
     response = urllib2.urlopen(req)  # response表示通过调用urlopen并传入req返回响应response#
     the_page = response.read()  # 用read解析获得的HTML文件#
     uzip = zipUtils.unzip(the_page).decode('gbk')
-    print uzip  # 在屏幕上显示出来#
+    print(uzip)  # 在屏幕上显示出来#
 
     # soup = BeautifulSoup(uzip)
     # print soup.find_all('img')
@@ -81,11 +81,11 @@ def ChinaBiddingLogin(url, username, password):
     response1 = urllib2.urlopen(req1)  # response表示通过调用urlopen并传入req返回响应response#
     the_page1 = response1.read()  # 用read解析获得的HTML文件#
     uzip1 = zipUtils.unzip(the_page1).decode('gbk')
-    print uzip1  # 在屏幕上显示出来#
+    print(uzip1)   # 在屏幕上显示出来#
 
     '''处理页面数据  获取出售列表table'''
     soup = BeautifulSoup(uzip1)
-    print soup.findAll(id='soldList')
+    print (soup.findAll(id='soldList'))
 
     return True
     # print BeautifulSoup(soup.findAll(id='soldList')).findAll('tr')
@@ -107,7 +107,7 @@ def DownloadFile(fileUrl, urlopener):
 
             isDownOK = True
         else:
-            print 'ERROR: fileUrl is NULL!'
+            print ('ERROR: fileUrl is NULL!')
     except:
         isDownOK = False
 
@@ -121,15 +121,15 @@ def main():
     preUrl = 'http://xyq.cbg.163.com/cgi-bin/show_login.py?act=show_login'
     login_page = r'http://xyq.cbg.163.com/cgi-bin/show_login.py?act=show_login&area_id=1&area_name=%E4%B8%8A%E6%B5%B71%E5%8C%BA&server_id=164&server_name=%E5%A4%A9%E9%A9%AC%E5%B1%B1'
     areaUrlInfo = GetAreaInfo.getAreaInfo()
-    print login_page
+    print (login_page)
     for i in range(len(areaUrlInfo)):
         url = preUrl + areaUrlInfo[i]
         login_page = r''+url+''
-        print login_page
+        print (login_page)
         if ChinaBiddingLogin(login_page, '', ''):
-            print '爬取数据成功......' + areaUrlInfo[i]
+            print ('爬取数据成功......' + areaUrlInfo[i])
         else:
-            print '爬取数据失败......' + areaUrlInfo[i]
+            print ('爬取数据失败......' + areaUrlInfo[i])
 
 
 # ------------------------------------------------------------------------------

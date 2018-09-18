@@ -13,7 +13,7 @@ class Learn():
     # 假设图片放在static/pics/里面
     PICS = os.listdir(os.path.join(BASE_DIR, 'common_static/images'))
 
-    print PICS  # 启动时终端上可以看到有哪些图片，我只放了一张，测试完后这一行可以删除
+    print (PICS)  # 启动时终端上可以看到有哪些图片，我只放了一张，测试完后这一行可以删除
 
     def index(self,request):
         # return HttpResponse(u"STOCK ANALYSIS SYSTEM")
@@ -46,7 +46,7 @@ class Learn():
 
 
     def add2(request,a,b):
-        print a,b
+        print (a,b)
         c = int(a) + int(b)
         return HttpResponse(str(c))
 
@@ -88,7 +88,7 @@ class Learn():
         # 过滤出符合要求的图片，假设是以输入的开头的都返回
         result_list = filter(lambda x: x.startswith(name), self.PICS)
 
-        print 'result_list', result_list
+        print ('result_list', result_list)
 
         return HttpResponse(
             json.dumps(result_list),

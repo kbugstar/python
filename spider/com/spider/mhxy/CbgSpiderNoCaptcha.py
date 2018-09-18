@@ -23,7 +23,7 @@ def cbg_spider(base_url,area_id,area_name,server_id,server_name):
     urlopener.addheaders.append(('Upgrade-Insecure-Requests', '1'))
     urlopener.addheaders.append(('User-Agent','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'))
 
-    print 'connecting......' + server_name + ' - ' + area_name
+    print ('connecting......' + server_name + ' - ' + area_name)
 
     values = {
                 "act": "query",

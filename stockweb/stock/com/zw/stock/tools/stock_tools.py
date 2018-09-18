@@ -37,7 +37,7 @@ class StockTools(object):
                         high = float(data[i][2])
                 currentPriceOfHighRate[key] = float(cur_price)/high
         else:
-            print 'stock_data type error'
+            print ('stock_data type error')
 
         return currentPriceOfHighRate
 
@@ -110,7 +110,7 @@ class StockTools(object):
                     cpolr.save()
 
         else:
-            print 'stock_data type error'
-        print currentPriceOfLowRateTrue, currentPriceOfLowRateFalse
+            print ('stock_data type error')
+        print (currentPriceOfLowRateTrue, currentPriceOfLowRateFalse)
         return (currentPriceOfLowRateTrue, currentPriceOfLowRateFalse)
 

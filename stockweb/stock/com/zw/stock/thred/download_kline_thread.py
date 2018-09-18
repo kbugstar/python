@@ -11,11 +11,6 @@ import threading
 import types
 import tushare as ts
 
-import time
-
-from stockweb import settings
-
-
 class DownloadKlineThread(threading.Thread):
     def __init__(self, que,path):
         threading.Thread.__init__(self)
@@ -30,7 +25,7 @@ class DownloadKlineThread(threading.Thread):
             code = self.queue.get()
             # processing the item
             # time.sleep(code)
-            print self.name, code
+            print(self.name, code)
             self.download_code(code,self.path)
             self.queue.task_done()
         return
@@ -49,15 +44,15 @@ class DownloadKlineThread(threading.Thread):
                 if not os.path.exists(path):
                     os.makedirs(path)
                 self.downloadDataToCsv(code, file_name)
-                print '【' + str(code) + '】 数据下载成功！'
+                print('【' + str(code) + '】 数据下载成功！')
         except Exception as e:
             if code != None:
                 failCodes.append(code)
-            print '【' + str(code) + '】  数据下载失败！ 原因： ' + str(e)
+            print('【' + str(code) + '】  数据下载失败！ 原因： ' + str(e))
             pass
         cnt = 1
         while len(failCodes) > 0:
-            print '第' + str(cnt) + '次循环，' + str(len(failCodes)) + '条失败'
+            print('第' + str(cnt) + '次循环，' + str(len(failCodes)) + '条失败')
             self.downloadDataToCsv(failCodes.pop(), path)
 
 

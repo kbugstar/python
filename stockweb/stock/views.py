@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import Queue
+# import Queue
+import multiprocessing
 import json
 import os
 import socket
@@ -15,8 +16,11 @@ from time import ctime, time
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from com.zw.stock.tools.stock_tools import StockTools
-from com.zw.utils.file_utils import FileUtils
+import os
+print(os.getcwd())
+
+from stock.com.zw.stock.tools.stock_tools import StockTools
+from stock.com.zw.utils.file_utils import FileUtils
 
 from stock.models import Current_Price_Of_Low_Rate
 
@@ -105,10 +109,12 @@ class Stock():
     def computer(self):
         path = settings.DOWNLOAD_PATH_KLINE + str(DateUtils().get_current_date())+'/'
         # path = 'E:/stock/csv/kline/' +str(DateUtils().get_current_date())+'/'
-        print '=====================start ....' + str(ctime()) + '======================='
+        print ('=====================start ....' + str(ctime()) + '=======================')
 
-        print '开始下载股票历史K线数据......' + str(ctime())
-        que = Queue.Queue()
+        print ('开始下载股票历史K线数据......' + str(ctime()))
+        m = multiprocessing.Manager()
+        que = m.Queue()
+        # que = Queue.Queue()
         socket.setdefaulttimeout(100)
         # 获取股票代码列表
         stock_list = None
@@ -116,7 +122,7 @@ class Stock():
         try:
             stock_list = ts.get_stock_basics()
         except Exception as e:
-            print 'get stock basics fail ' + '[ '+ str(e) +' ]'
+            print ('get stock basics fail ' + '[ '+ str(e) +' ]')
 
         index = stock_list.index.size
         for i in range(0, index):
@@ -130,10 +136,10 @@ class Stock():
             download.start()
         que.join()
 
-        print '股票历史K线数据下载完成...' + str(ctime()) + '  共 [' + str(index) + '] 只'
+        print ('股票历史K线数据下载完成...' + str(ctime()) + '  共 [' + str(index) + '] 只')
 
 
-        print '开始统计分析！ （' + str(ctime()) + '）'
+        print ('开始统计分析！ （' + str(ctime()) + '）')
         fu = FileUtils()
         content = {}
         headers = {}
@@ -155,10 +161,10 @@ class Stock():
         currentPriceOfLowRateTrue = sorted(currentPriceOfLowRateTrue.iteritems(), key=lambda d: d[1], reverse=False)
         currentPriceOfLowRateFalse = sorted(currentPriceOfLowRateFalse.iteritems(), key=lambda d: d[1], reverse=False)
 
-        print currentPriceOfHighRate
-        print currentPriceOfLowRateTrue
-        print currentPriceOfLowRateFalse
-        print '统计分析完成！（' + str(ctime()) + '）'
+        print (currentPriceOfHighRate)
+        print (currentPriceOfLowRateTrue)
+        print (currentPriceOfLowRateFalse)
+        print ('统计分析完成！（' + str(ctime()) + '）')
 
 
 
@@ -284,7 +290,7 @@ class Stock():
                 return
 
             df.to_csv(path + str(code)+'_'+str(date) + '.csv', encoding="utf_8_sig")
-            print 'fenshi csv download successed !'
+            print ('fenshi csv download successed !')
 
         except Exception as e:
             print(
@@ -310,7 +316,7 @@ class Stock():
                 sf.amount = value[4]
                 sf.type = value[5]
                 sf.save()
-            print 'fenshi insert to db successed !  total ['+str(index)+']'
+            print ('fenshi insert to db successed !  total ['+str(index)+']')
         except Exception as e:
             print(
                 'download stock fenbi data to csv failed! code = [' + str(code) + '] , Error = [' + str(e) + ']')
@@ -327,7 +333,7 @@ class Stock():
 
             while start < end and n<730:
                 n += 1
-                print stock.code, end
+                print (stock.code, end)
                 socket.setdefaulttimeout(100)
                 try:
                     df = ts.get_tick_data(stock.code, end.date())
@@ -335,7 +341,7 @@ class Stock():
                         self.download_fenshi_tocsv(stock.code,end.date(),df)
                         self.download_fenshi_todb(stock.code,end.date(),df)
                     else:
-                        print '       ----------no data'
+                        print ('       ----------no data')
 
                     end -= datetime.timedelta(days=1)
                 except Exception as e:
@@ -346,8 +352,9 @@ class Stock():
 
     def download_fenshi_thread(self):
         list = Stock_Basics.objects.all()
-
-        que = Queue.Queue()
+        m = multiprocessing.Manager()
+        que = m.Queue()
+        # que = Queue.Queue()
         for stock in list:
             que.put(stock.code)
 
@@ -379,7 +386,7 @@ class paging():
         if queryset ==None:
             queryset = self.tablename.objects.all().order_by('rate')          #查询tablename表中所有记录数，并以降序的方式对id进行排列
         self.p = Paginator(queryset,self.pagenum)                         #对表数据进行分页，每页显示pagenum条
-        print self.p.object_list.query
+        print (self.p.object_list.query)
         self.p_count = self.p.count                                 #数据库共多少条记录
         self.p_pages = self.p.num_pages                             #共可分成多少页
         self.p_content = self.p.page(self.page).object_list         #第N页的内容列表

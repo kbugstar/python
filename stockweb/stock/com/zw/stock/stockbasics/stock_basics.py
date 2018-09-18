@@ -127,9 +127,7 @@ class DownLoadStockBasic(object):
                 if not self.isExistStock(stock['code']):
                     dbOperator.insertIntoDB(table, stock)
                 stock_dict.append(stock)
-
-
-
+            self.__logger.info('download stock list basic to db finished!')
         except Exception as e:
             self.__logger.error('download stock list basic to db failed >>> ' + str(e))
             pass
